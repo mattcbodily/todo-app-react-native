@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
-import {StyleSheet, View, Text, TextInput, Button} from 'react-native'
+import {StyleSheet, ScrollView, ImageBackground, View, Text, TextInput, Button} from 'react-native'
+import TodoDisplay from './TodoDisplay'
+import bigshia from './../../assets/yesyoucan.jpg'
 
 class Todo extends Component {
     constructor(){
@@ -26,45 +28,56 @@ class Todo extends Component {
     render(){
         const mappedTodos = this.state.todoList.map((todo, i) => {
             return (
-                <View key={i} style={styles.todoBox}>
-                    <Text>{todo}</Text>
-                </View>
+                <TodoDisplay
+                    key={i} 
+                    todo={todo} />
             )
         })
         return(
-            <View style={styles.container}>
-                <Text style={styles.headerText}>To Do's</Text>
-                {mappedTodos}
-                <View style={styles.inputContainer}>
-                    <TextInput
-                        value={this.state.todoInput} 
-                        placeholder='Add a Todo'
-                        onChangeText={value => this.handleInput(value)}
-                        style={styles.todoInput}/>
-                    <Button title='Add Todo' onPress={this.handleAdd}/>
+            <ScrollView>
+                <ImageBackground source={bigshia} style={styles}>
+                <Text style={styles.headerText}>ToDos</Text>
+                <View style={styles.container}>
+                    {mappedTodos}
+                    <View style={styles.inputContainer}>
+                    </View>
                 </View>
-            </View>
+                <TextInput
+                    value={this.state.todoInput} 
+                    placeholder='Add a Todo'
+                    onChangeText={value => this.handleInput(value)}
+                    style={styles.todoInput}/>
+                <Button title='Add Todo' onPress={this.handleAdd}/>
+                </ImageBackground>
+            </ScrollView>
         )
     }
 }
 
 const styles = StyleSheet.create({
+    image: {
+        height: 600,
+        width: 410
+    },  
     container: {
+        minHeight: 270,
         flex: 1,
-        alignItems: 'center',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
         marginTop: 24
     },
     headerText: {
+        backgroundColor: 'black',
+        color: 'white',
+        textAlign: 'center',
         fontSize: 20,
+        marginTop: 20,
         marginBottom: 10
     },  
-    todoBox: {
-        height: 30,
-        width: 410,
-        alignItems: 'center'
-    },
     inputContainer: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        marginBottom: 10
     },  
     todoInput: {
         borderBottomWidth: 1,
