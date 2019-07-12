@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {StyleSheet, ScrollView, ImageBackground, View, Text, TextInput, Button} from 'react-native'
+import axios from 'axios'
 import TodoDisplay from './TodoDisplay'
 import bigshia from './../../assets/yesyoucan.jpg'
 
@@ -7,9 +8,22 @@ class Todo extends Component {
     constructor(){
         super()
         this.state = {
-            todoList: ['Walk the dog', 'Code the things', 'Sleep'],
+            todoList: [],
             todoInput: ''
         }
+    }
+
+    componentDidMount(){
+        this.getTodos()
+    }
+
+    getTodos = () => {
+        axios.get('/api/todo')
+        .then(res => {
+            this.setState({
+                todoList: res.data
+            })
+        })
     }
 
     handleInput = (value) => {
